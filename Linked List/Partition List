@@ -1,0 +1,45 @@
+#Question : https://leetcode.com/problems/partition-list/
+
+Solution :
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode *temp=head;
+        ListNode *head1=NULL, *tail1=NULL, *head2=NULL, *tail2=NULL;
+        while(temp!=NULL){
+            if(temp->val>x || temp->val==x){
+                if(head2==NULL){
+                    head2=new ListNode(temp->val);
+                    tail2=head2;
+                }
+                else{
+                    ListNode *newnode1= new ListNode(temp->val);
+                    tail2->next=newnode1;
+                    tail2=newnode1;
+                }
+            }
+            else{
+                if(head1==NULL){
+                    head1=new ListNode(temp->val);
+                    tail1=head1;
+                }
+                else{
+                    ListNode *newnode= new ListNode(temp->val);
+                    tail1->next=newnode;
+                    tail1=newnode;
+                }
+            }
+            temp=temp->next;
+        }
+        if(tail1!=NULL){
+            tail1->next=head2;
+            return head1;
+        }
+        else if(tail2!=NULL && tail1==NULL){
+            return head2;
+        }
+        return head;
+    }
+};
