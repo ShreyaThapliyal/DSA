@@ -1,0 +1,85 @@
+Question : https://leetcode.com/problems/add-two-numbers/
+
+Solution :
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *temp1=l1, *temp2=l2, *head=NULL,*tail=NULL;
+        int carry=0;
+        while(temp1!=NULL && temp2!=NULL){
+            ListNode *newnode=new ListNode();
+            newnode->next=NULL;
+            if(head==NULL){
+                head=newnode;
+                tail=newnode;
+            }
+            else{
+                tail->next=newnode;
+                tail=newnode;
+            }
+            int sum=carry+temp1->val+temp2->val;
+            if(sum<=9){
+                newnode->val=sum;
+                carry=0;
+            }
+            else{
+                carry=sum/10;
+                newnode->val=sum%10;
+            }
+            temp1=temp1->next;
+            temp2=temp2->next;
+        }
+        while(temp1!=NULL){
+            ListNode *newnode=new ListNode();
+            newnode->next=NULL;
+            if(head==NULL){
+                head=newnode;
+                tail=newnode;
+            }
+            else{
+                tail->next=newnode;
+                tail=newnode;
+            }
+            int cal=carry+temp1->val;
+            if(cal<=9){
+                newnode->val=cal;
+                carry=0;
+            }
+            else{
+                carry=cal/10;
+                newnode->val=cal%10;
+            }
+            temp1=temp1->next;
+        }
+        while(temp2!=NULL){
+            ListNode *newnode=new ListNode();
+            newnode->next=NULL;
+            if(head==NULL){
+                head=newnode;
+                tail=newnode;
+            }
+            else{
+                tail->next=newnode;
+                tail=newnode;
+            }
+            int cal=carry+temp2->val;
+            if(cal<=9){
+                newnode->val=cal;
+                carry=0;
+            }
+            else{
+                carry=cal/10;
+                newnode->val=cal%10;
+            }
+            temp2=temp2->next;
+        }
+        if(carry>0){
+            ListNode *newnode=new ListNode();
+            newnode->val=carry;
+            newnode->next=NULL;
+            tail->next=newnode;
+        }
+        return head;
+    }
+};
