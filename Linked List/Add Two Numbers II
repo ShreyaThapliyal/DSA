@@ -1,0 +1,92 @@
+Question : https://leetcode.com/problems/add-two-numbers-ii/ 
+
+Solution :
+
+class Solution {
+public:
+    ListNode *reverseLL(ListNode *head){
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode *temp=head,*prev=NULL,*next=NULL;
+        while(temp!=NULL){
+            next=temp->next;
+            temp->next=prev;
+            prev=temp;
+            temp=next;
+        }
+        head=prev;
+        return head;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *head1=reverseLL(l1);
+        ListNode *head2=reverseLL(l2);
+        ListNode *head=NULL, *tail=NULL;
+        int carry=0;
+        while(head1!=NULL && head2!=NULL){
+            ListNode *newnode=new ListNode();
+            if(head==NULL){
+                head=newnode;
+                tail=newnode;
+            }
+            else{
+                tail->next=newnode;
+                tail=newnode;
+            }
+            int sum=carry+head1->val+head2->val;
+            if(sum<=9){
+                newnode->val=sum;
+                carry=0;
+            }
+            else{
+                newnode->val=sum%10;
+                carry=sum/10;
+            }
+            head1=head1->next;
+            head2=head2->next;
+        }
+        
+        if(head1!=NULL){
+            ListNode *temp1=head1;
+          while(temp1!=NULL){
+              ListNode *newnode=new ListNode();
+              tail->next=newnode;
+              tail=newnode;
+              int sum=carry+temp1->val;
+              if(sum<=9){
+                  newnode->val=sum;
+                  carry=0;
+              }
+              else{
+                  newnode->val=sum%10;
+                  carry=sum/10;
+              }
+              temp1=temp1->next;
+          }  
+        }
+        if(head2!=NULL){
+            ListNode *temp2=head2;
+          while(temp2!=NULL){
+              ListNode *newnode=new ListNode();
+              tail->next=newnode;
+              tail=newnode;
+              int sum=carry+temp2->val;
+              if(sum<=9){
+                  newnode->val=sum;
+                  carry=0;
+              }
+              else{
+                  newnode->val=sum%10;
+                  carry=sum/10;
+              }
+              temp2=temp2->next;
+          }  
+        }
+        if(carry>0){
+            ListNode *newnode=new ListNode(carry);
+            tail->next=newnode;
+            tail=newnode;
+        }
+        ListNode *Head=reverseLL(head);
+        return Head;
+    }
+};
