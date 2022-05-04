@@ -1,0 +1,57 @@
+Question : https://leetcode.com/problems/palindrome-linked-list/
+
+Solution :
+
+class Solution {
+public:
+    
+    ListNode* reverse_linkedlist(ListNode *temphead){
+        ListNode *current=temphead,*prev=NULL;
+        if(temphead==NULL || temphead->next==NULL)
+            return temphead;
+        ListNode *n=current->next;
+        while(current!=NULL){
+            current->next=prev;
+            prev=current;
+            current=n;
+            if(n!=NULL)
+                n=current->next;
+        }
+        return prev;
+    }
+       
+    ListNode *midpoint(ListNode *head){
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode *slow=head,*fast=head->next->next;
+        while(fast!=NULL){
+            slow=slow->next;
+            if(fast->next!=NULL)
+                fast=fast->next->next;
+            else
+                fast=fast->next;
+        }
+        return slow;
+    }
+    
+    bool isPalindrome(ListNode* head) {
+        ListNode *h2=NULL,*head1=head,*temp=NULL;
+        if(head->next==NULL || head==NULL)
+            return true;
+        
+        //finding midpoint of linkedlist
+        temp=midpoint(head);
+        h2=temp->next;
+        temp->next=NULL;
+        
+        //comparing after getting the reversed link
+        ListNode *head2=reverse_linkedlist(h2);
+        while(head1!=NULL && head2!=NULL){
+            if(head1->val!=head2->val)
+                return false;
+            head1=head1->next;
+            head2=head2->next;
+        }
+        return true;
+    }
+};
